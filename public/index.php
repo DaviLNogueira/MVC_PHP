@@ -1,34 +1,25 @@
 <?php
 
+use Alura\Cursos\Controller\InterfaceControladorRequisicao;
 use Alura\Cursos\Entity\Curso;
-use Alura\Cursos\Controller\FormularioInsercao;
-use Alura\Cursos\Controller\ListarCursos;
-use Alura\Cursos\Controller\Persistencia;
+use Alura\Cursos\Infra\EntityManagerCreator;
+use Doctrine\ORM\EntityManagerInterface;
+
 
 
 require __DIR__ . "/../vendor/autoload.php"; // __DIR__ significa do diretório atual.
 
 
-switch ($_SERVER['PATH_INFO'] ){
-    //$_SERVER  = traz informações sobre a requisção do usuário
-    //PATH_INFO = retorna a url digitada pelo o usuário
-    case '/listar-cursos':
-        $controlador = new ListarCursos();
-        $controlador -> processaRequisicao();
-        break;
+$caminho = $_SERVER['PATH_INFO'];
+$rotas = require   "../config/routes.php"; // retorna o arquivo
 
-    case '/novo-curso':
-        $controlador = new FormularioInsercao();
-        $controlador -> processaRequisicao();
-        break;
-
-    case '/salvar-curso':
-        $controlador = new Persistencia();
-        $controlador -> processaRequisicao();
-        break;
-
-    default:
-        echo "Erro 404";
-
-
+if(!array_key_exists($caminho,$rotas)){ // verifica se tem a chave da rota através do path_info
+    http_response_code(404);// mandar o código da págian de erro.
+    exit();
 }
+
+$classeContraladora = $rotas[$caminho]; // acessar a rota através do caminho
+/** @var InterfaceControladorRequisicao $controlador */
+$controlador = new $classeContraladora() ;// se o valor da variavel for uma classe, podemos instanciar
+
+$controlador  -> processaRequisicao(); // chamar o método padrão;
