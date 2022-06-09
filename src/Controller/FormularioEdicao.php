@@ -7,7 +7,7 @@ use Alura\Cursos\Infra\EntityManagerCreator;
 use Doctrine\ORM\EntityRepository;
 
 
-class FormularioEdicao implements  InterfaceControladorRequisicao
+class FormularioEdicao extends  ControlerComHtml implements  InterfaceControladorRequisicao
 {
     private EntityRepository $repositorioCursos;
 
@@ -31,9 +31,14 @@ class FormularioEdicao implements  InterfaceControladorRequisicao
             return;
         }
 
+
+
         $curso = $this -> repositorioCursos -> find($id);
-        $titulo = "Alterar curso " . $curso->getDescricao();
-        require __DIR__ . "/../../view/cursos/formulario.php";
+        $this -> renderizaHtml("cursos/formulario.php",[
+            "curso" => $curso,
+            "titulo" => "Alterar curso " .$curso -> getDescricao() ]);
+
+
 
     }
 }
