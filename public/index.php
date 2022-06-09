@@ -15,7 +15,7 @@ switch ($_SERVER['PATH_INFO'] ){
 
     case '/novo-curso':
         $controlador = new FormularioInsercao();
-        $controlador -> processaRequisao();
+        $controlador -> processaRequisicao();
         break;
     default:
         echo "Erro 404";
