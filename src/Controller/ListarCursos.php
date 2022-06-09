@@ -3,11 +3,11 @@
 namespace Alura\Cursos\Controller;
 
 use Alura\Cursos\Entity\Curso;
-use Alura\Cursos\Infra\EntityManagerCreator;
+use Alura\Cursos\Infra\EntityManagerCreator;use Doctrine\ORM\EntityRepository;
 
 class ListarCursos
 {
-    private $repositorioDeCursos;
+    private EntityRepository $repositorioDeCursos;
 
     public function __construct()
     {
@@ -17,8 +17,8 @@ class ListarCursos
             ->getRepository(Curso::class);
     }
 
-    public function processaRequisicao()
-    {
+    public function processaRequisicao():void
+{
         $cursos = $this -> repositorioDeCursos->findAll();
         ?><!DOCTYPE html>
 <html lang="pt-BR">
