@@ -1,6 +1,12 @@
 <?php
 
-use Alura\Cursos\Controller\{Exclusao, FormularioEdicao, FormularioInsercao, ListarCursos, Persistencia};
+use Alura\Cursos\Controller\{Exclusao,
+    FormularioEdicao,
+    FormularioInsercao,
+    FormularioLogin,
+    ListarCursos,
+    Persistencia,
+    RealizaLogin};
 
 return  [
     '/listar-cursos' => ListarCursos::class, //colocar sempre dois pontos para referência que é uma classe
@@ -8,7 +14,9 @@ return  [
     '/novo-curso' => FormularioInsercao::class,
     '/salvar-curso' => Persistencia::class,
     '/excluir-curso' => Exclusao::class,
-    '/alterar-curso' => FormularioEdicao::class
+    '/alterar-curso' => FormularioEdicao::class,
+    '/login' => FormularioLogin::class,
+    '/realiza-login' => RealizaLogin::class
 
 ];
 
