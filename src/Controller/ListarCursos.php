@@ -3,10 +3,13 @@
 namespace Alura\Cursos\Controller;
 
 use Alura\Cursos\Entity\Curso;
+use Alura\Cursos\Helper\RenderizadorDeHtmlTrait;
 use Alura\Cursos\Infra\EntityManagerCreator;use Doctrine\ORM\EntityRepository;
 
-class ListarCursos extends ControlerComHtml implements InterfaceControladorRequisicao
+class ListarCursos  implements InterfaceControladorRequisicao
 {
+
+    use RenderizadorDeHtmlTrait;
     private EntityRepository $repositorioDeCursos;
 
     public function __construct()

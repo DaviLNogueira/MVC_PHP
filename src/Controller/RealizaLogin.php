@@ -3,11 +3,14 @@
 namespace Alura\Cursos\Controller;
 
 use Alura\Cursos\Entity\Usuario;
+use Alura\Cursos\Helper\FlashMessageTrait;
 use Alura\Cursos\Infra\EntityManagerCreator;
 use Doctrine\ORM\EntityRepository;
 
 class RealizaLogin implements  InterfaceControladorRequisicao
 {
+    use FlashMessageTrait;
+
     private EntityRepository $repositorioDeUsuarios;
     public function __construct()
     {
@@ -22,8 +25,7 @@ class RealizaLogin implements  InterfaceControladorRequisicao
         FILTER_VALIDATE_EMAIL);
 
         if (is_null($email) || $email === false) {
-            $_SESSION['tipo_mensagem'] = 'danger';
-            $_SESSION['mensagem'] = "O e-mail digitado não é um e-mail válido";
+            $this ->defineMesagem('danger',"O e-mail digitado não é um e-mail válido");
             header('Location: /login');
             exit();
         }
@@ -34,8 +36,8 @@ class RealizaLogin implements  InterfaceControladorRequisicao
         $usuario = $this-> repositorioDeUsuarios->findOneBy(['email' => $email]);
 
         if (is_null($usuario) || !$usuario->senhaEstaCorreta($senha)) {
-            $_SESSION['tipo_mensagem'] = 'danger';// podemos armazenar qualquer tipo de informação na Seção jão que vai de uma pagina a outra
-            $_SESSION['mensagem'] = "E-mail ou senha inválidos";
+            $this->defineMesagem('danger',"E-mail ou senha inválidos");
+
             header('Location: /login');
             return;
         }
