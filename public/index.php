@@ -18,8 +18,24 @@ if(!array_key_exists($caminho,$rotas)){ // verifica se tem a chave da rota atrav
     exit();
 }
 
+
+session_start(); // implementar a função np código antes d emandar qualquer post no navegador
+
+
+$ehRotaDeLogin = stripos($caminho, 'login'); // variavel que localiza a string na variavel,
+// o i não faz dirença de maiusculas e minusculas,
+
+if (!isset($_SESSION['logado']) && $ehRotaDeLogin === false) {// verifica se essa variavel existe se não envia novamente para a pagina index
+    header('Location: /login');
+    exit();
+}
+
 $classeContraladora = $rotas[$caminho]; // acessar a rota através do caminho
 /** @var InterfaceControladorRequisicao $controlador */
 $controlador = new $classeContraladora() ;// se o valor da variavel for uma classe, podemos instanciar
 
 $controlador  -> processaRequisicao(); // chamar o método padrão;
+
+
+
+

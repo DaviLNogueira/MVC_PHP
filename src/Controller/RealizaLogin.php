@@ -21,9 +21,11 @@ class RealizaLogin implements  InterfaceControladorRequisicao
         "email",
         FILTER_VALIDATE_EMAIL);
 
-        if(is_null($email) || $email === false){
-            echo "E-mail inválido";
-            exit() ;// sair da função
+        if (is_null($email) || $email === false) {
+            $_SESSION['tipo_mensagem'] = 'danger';
+            $_SESSION['mensagem'] = "O e-mail digitado não é um e-mail válido";
+            header('Location: /login');
+            exit();
         }
         $senha = filter_input(INPUT_POST,
         'senha');
@@ -32,9 +34,15 @@ class RealizaLogin implements  InterfaceControladorRequisicao
         $usuario = $this-> repositorioDeUsuarios->findOneBy(['email' => $email]);
 
         if (is_null($usuario) || !$usuario->senhaEstaCorreta($senha)) {
-            echo "E-mail ou senha inválidos";
+            $_SESSION['tipo_mensagem'] = 'danger';// podemos armazenar qualquer tipo de informação na Seção jão que vai de uma pagina a outra
+            $_SESSION['mensagem'] = "E-mail ou senha inválidos";
+            header('Location: /login');
             return;
         }
+
+        session_start();//começa a seção do usuário e poderá armazenar dados;
+        $_SESSION['logado'] = true;
+
         header("Location: /listar-cursos", true, 302);
     //Lembrar que as senhas geradas eplo password_hash devem ser colocadas na função com aspas simples
         // password_hash('123456',PASSWORD_ARGON2I);
